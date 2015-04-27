@@ -42,9 +42,9 @@
 </html><?php
 
 function layoutList () {
-	$directory = './layouts/';
+	$directory = './layouts/*.json';
 
-	$files = array_diff( scandir($directory), array('..', '.') );
+	$files = glob($directory);
 
 	foreach ($files as $layout) {
 		$layout = basename($layout, '.json');
