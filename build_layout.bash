@@ -1,4 +1,5 @@
 #!/bin/bash
+# Jacob Alexander 2015
 # TODO Error if anything fails with a useful message (if needed)
 # Arg 1: Build Directory
 # Arg 2: DefaultMap
@@ -31,7 +32,7 @@ layer() {
 	fi
 }
 
-BUILD_PATH="build/${1}"; shift
+BUILD_PATH="/tmp/build/${1}"; shift
 SOURCE_PATH=$(realpath controller)
 
 # Create build directory if necessary

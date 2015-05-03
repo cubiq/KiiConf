@@ -38,7 +38,6 @@ The configurator loads the layout and lets the user configure the keyboard layer
 
 * Enable web server and point it to the KiiConf directory
 * Make sure that the following directories have permissions for the web-server to write
-  * KiiConf/build
   * KiiConf/tmp
   * KiiConf/layouts
 
