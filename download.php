@@ -26,7 +26,7 @@ $layers = array();
 foreach ( $map->matrix as $i => $key ) {
 	foreach ($key->layers as $l => $layer) {
 		if ( $default[$i]->layers->{0}->key != $layer->key ) {
-			$layers[$l][$key->code] = $layer->key;
+			$layers[$l][$default[$i]->layers->{0}->key] = $layer->key;
 		}
 	}
 }
@@ -40,11 +40,11 @@ if ( empty( $layers) ) {
 }
 
 foreach ($layers as $n => $layer) {
-	$out = implode("\n", array_map(function ($v, $k) { return $k . ' : U"' . $v . '"'; }, $layer, array_keys($layer)));
+	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '"'; }, $layer, array_keys($layer)));
 	$out = $header . "\n\n" . $out . "\n";
 	$hashbaby .= $out;
 
-	$files[] = array('content' => $out, 'name' => $name . '-' . $layout . '-' . $n . '.KII');
+	$files[] = array('content' => $out, 'name' => $name . '-' . $layout . '-' . $n . '.kll');
 }
 
 $zipfile = './tmp/' . md5($hashbaby) . '.zip';
