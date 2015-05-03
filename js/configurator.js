@@ -74,6 +74,10 @@ APP.Class = function (debug) {
 	$('#load-layout')
 		.on('click', $.proxy(this.loadLayout, this, ''));
 
+	// download button
+	$('#download-map')
+		.on('click', $.proxy(this.downloadMap, this));
+
 	// tab switch
 	$('#layers li').on('click', function (e) {
 		e.stopPropagation();
@@ -122,7 +126,7 @@ APP.Class.prototype = {
 		var maxX = 0;
 		var maxY = 0;
 
-		for ( var i = matrix.length; i--; ) {
+		for ( var i = 0, l = matrix.length; i < l; i++ ) {
 			minX = Math.min(minX, matrix[i].x);
 			minY = Math.min(minY, matrix[i].y);
 			maxX = Math.max(maxX, matrix[i].x + matrix[i].w);
@@ -243,6 +247,40 @@ APP.Class.prototype = {
 		// following jQuery documentation all event listeners are automatically removed so this is all we need to clear the board
 		// TODO: check memory leaks
 		this.$stage.find('.key').remove();
+	},
+
+	downloadMap: function () {
+		var matrix = [];
+
+		$.each(this.matrix, function (k, v) {
+			matrix.push({
+				code: v.code,
+				x: v.x,
+				y: v.y,
+				w: v.width,
+				h: v.height,
+				layers: v.layers
+			});
+		});
+
+		$.ajax({
+			type: 'post',
+			url: 'download.php',
+			data: {
+				'map': JSON.stringify({ header: this.header, matrix: matrix }),
+			},
+			success: function (response) {
+				if ( 'error' in response ) {
+					alert( response.error );
+					return;
+				}
+
+				window.location.href = response.filename;
+			},
+			error: function (response) {
+				alert('Connection error!');
+			}
+		});
 	}
 };
 
