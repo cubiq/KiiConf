@@ -32,7 +32,7 @@ layer() {
 	fi
 }
 
-BUILD_PATH="/tmp/build/${1}"; shift
+BUILD_PATH="./tmp/${1}"; shift
 SOURCE_PATH=$(realpath controller)
 
 # Create build directory if necessary
@@ -55,7 +55,7 @@ fi
 cd "${BUILD_PATH}"
 
 # NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
-cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
+cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP} stdFuncMap" -DPartialMaps="${PARTIAL_MAPS}"
 # Example working cmake command
 #cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="md1Overlay stdFuncMap" -DPartialMaps="hhkbpro2"
 
