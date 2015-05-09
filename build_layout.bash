@@ -54,16 +54,32 @@ fi
 # Start CMake generation
 cd "${BUILD_PATH}"
 
+# Show commands
+set -x
+
 # NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
 cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP} stdFuncMap" -DPartialMaps="${PARTIAL_MAPS}"
 # Example working cmake command
 #cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="md1Overlay stdFuncMap" -DPartialMaps="hhkbpro2"
 
 # Build Firmware
-make
+make -j
 
-# Depending on the type of build, the binary file can have the following names:
-# kiibohd.dfu.bin
-# kiibohd.teensy.hex
-# TODO
+# Stop showing commands
+set +x
+
+# If the build failed, make clean, then build again
+# Build log will be easier to read
+if [ $? -ne 0 ]; then
+	make clean
+	make
+	RETVAL=$?
+
+	# If the build still failed, make sure to remove any old .dfu.bin files
+	if [ $RETVAL -ne 0 ]; then
+		rm -f *.dfu.bin
+	fi
+fi
+
+exit $RETVAL
 
