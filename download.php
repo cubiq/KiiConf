@@ -31,32 +31,88 @@ foreach ( $map->matrix as $i => $key ) {
 	}
 }
 
-$header = implode("\n", array_map(function ($v, $k) { return $k . '=' . $v; }, (array)$map->header, array_keys((array)$map->header)));
+$header = implode("\n", array_map(function ($v, $k) { return $k . ' = "' . $v . '";'; }, (array)$map->header, array_keys((array)$map->header)));
 $files = array();
-$hashbaby = '';
+$file_args = array();
+$hashbaby = $name . $layout; //Set name of base and layout here as an md5 seed
+$layout_name = $name . '-' . $layout;
 
-if ( empty( $layers) ) {
-	die( json_encode( array( 'error' => 'Nothing to do...' ) ) );
-}
 
+// Generate .kll files
+$max_layer = 0;
 foreach ($layers as $n => $layer) {
-	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '"'; }, $layer, array_keys($layer)));
+	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '";'; }, $layer, array_keys($layer)));
 	$out = $header . "\n\n" . $out . "\n";
 	$hashbaby .= $out;
 
-	$files[] = array('content' => $out, 'name' => $name . '-' . $layout . '-' . $n . '.kll');
-}
+	$files[$n] = $file = array('content' => $out, 'name' => $layout_name . '-' . $n . '.kll' );
 
-$zipfile = './tmp/' . md5($hashbaby) . '.zip';
-
-if ( !file_exists ( $zipfile ) ) {
-	$zip = new ZipArchive;
-	$zip->open($zipfile, ZipArchive::CREATE);
-	foreach ($files as $file) {
-		$zip->addFromString($file['name'], $file['content']);
+	if ( $n > $max_layer ) {
+		$max_layer = $n;
 	}
-	$zip->close();
+
 }
 
-echo json_encode( array( 'success' => true, 'filename' => './tmp/' . basename( $zipfile ) ) );
+// Now that the layout files are ready, create directory for compilation object files
+$md5sum = md5($hashbaby);
+$objpath = './tmp/' . $md5sum;
+mkdir($objpath, 0700);
+
+
+// Run compilation, very simple, 1 layer per entry (script supports complicated entries)
+$cmd = './build_layout.bash ' . $md5sum . ' ';
+for ( $c = 0; $c < $max_layer; $c++ ) {
+	$path = $objpath . '/' . $files[$c]['name'];
+	file_put_contents( $path, $files[$c]['content'] ); // Write kll file
+
+	$cmd .= '"' . $files[$c]['name'] . '" ';
+}
+exec( escapeshellcmd( $cmd ), $output, $retval );
+
+
+// Make log file
+$log_out = $cmd . "\n";
+$log_file = $objpath . '/build.log';
+foreach ($output as $line) {
+	$log_out .= $line . "\n";
+}
+file_put_contents( $log_file , $log_out );
+
+
+// If failed mark the zip file with an _error
+$error_str = '';
+if ( $retval != 0 ) {
+	$error_str = '_error';
+}
+
+
+// Always create the zip file (the date is always updated, which changes the binary)
+$zip_path = './tmp';
+$zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . $error_str . '.zip';
+$zip = new ZipArchive;
+$zip->open( $zipfile, ZipArchive::CREATE );
+$kll_files = glob( $objpath . "/*.kll", GLOB_NOCHECK );
+$bin_files = glob( $objpath . "/*.dfu.bin", GLOB_NOCHECK );
+$log_files = glob( $objpath . "/*.log", GLOB_NOCHECK );
+$hdr_files = glob( $objpath . "/*.h", GLOB_NOCHECK );
+
+// Add each of the files, flattening the dir hierarchy
+foreach ( array_merge( $kll_files, $bin_files ) as $file ) {
+	$zip->addFile( $file, basename( $file ) );
+}
+
+// Add each of the kll files to the kll directory
+foreach ( array_merge( $kll_files ) as $file ) {
+	$zip->addFile( $file, "kll/" . basename( $file ) );
+}
+
+// Add the log/debug files to the log directory
+foreach ( array_merge( $hdr_files, $log_files ) as $file ) {
+	$zip->addFile( $file, "log/" . basename( $file ) );
+}
+
+$zip->close();
+
+// Output zip file path
+echo json_encode( array( 'success' => true, 'filename' => $zip_path . '/' . basename( $zipfile ) ) );
 exit;
