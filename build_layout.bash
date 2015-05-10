@@ -1,6 +1,5 @@
 #!/bin/bash
 # Jacob Alexander 2015
-# TODO Error if anything fails with a useful message (if needed)
 # Arg 1: Build Directory
 # Arg 2: DefaultMap
 # Arg 3: Layer 1
@@ -21,7 +20,6 @@ layer() {
 		extension="${filename##*.}"
 		filename_base="${filename%.*}"
 		output="${output}${filename_base} "
-		cp ${file} ${BUILD_PATH}/.
 	done
 
 	# Output everything except the last character unless there was nothing in this layer

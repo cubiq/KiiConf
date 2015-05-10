@@ -24,7 +24,7 @@ $layers = array();
 
 // Find the differences between the default map and the user's map
 foreach ( $map->matrix as $i => $key ) {
-	foreach ($key->layers as $l => $layer) {
+	foreach ( $key->layers as $l => $layer ) {
 		if ( $default[$i]->layers->{0}->key != $layer->key ) {
 			$layers[$l][$default[$i]->layers->{0}->key] = $layer->key;
 		}
@@ -34,15 +34,15 @@ foreach ( $map->matrix as $i => $key ) {
 $header = implode("\n", array_map(function ($v, $k) { return $k . ' = "' . $v . '";'; }, (array)$map->header, array_keys((array)$map->header)));
 $files = array();
 $file_args = array();
-$hashbaby = $name . $layout; //Set name of base and layout here as an md5 seed
+$hashbaby = $name . $layout; // Set name of base and layout here as an md5 seed
 $layout_name = $name . '-' . $layout;
 
 
 // Generate .kll files
 $max_layer = 0;
-foreach ($layers as $n => $layer) {
+foreach ( $layers as $n => $layer ) {
 	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '";'; }, $layer, array_keys($layer)));
-	$out = $header . "\n\n" . $out . "\n";
+	$out = $header . "\n\n" . $out . "\n\n";
 	$hashbaby .= $out;
 
 	$files[$n] = $file = array('content' => $out, 'name' => $layout_name . '-' . $n . '.kll' );
@@ -50,33 +50,30 @@ foreach ($layers as $n => $layer) {
 	if ( $n > $max_layer ) {
 		$max_layer = $n;
 	}
-
 }
 
 // Now that the layout files are ready, create directory for compilation object files
-$md5sum = md5($hashbaby);
+$md5sum = md5( $hashbaby );
 $objpath = './tmp/' . $md5sum;
-mkdir($objpath, 0700);
+mkdir( $objpath, 0700 );
 
 
 // Run compilation, very simple, 1 layer per entry (script supports complicated entries)
+$log_file = $objpath . '/build.log';
 $cmd = './build_layout.bash ' . $md5sum . ' ';
-for ( $c = 0; $c < $max_layer; $c++ ) {
+for ( $c = 0; $c <= $max_layer; $c++ ) {
 	$path = $objpath . '/' . $files[$c]['name'];
 	file_put_contents( $path, $files[$c]['content'] ); // Write kll file
 
 	$cmd .= '"' . $files[$c]['name'] . '" ';
 }
-exec( escapeshellcmd( $cmd ), $output, $retval );
-
-
-// Make log file
-$log_out = $cmd . "\n";
-$log_file = $objpath . '/build.log';
-foreach ($output as $line) {
-	$log_out .= $line . "\n";
+$cmd .= ' 2>&1';
+file_put_contents( $log_file , $cmd . "\n" ); // Reset the log file, with the specified command
+$handle = popen( $cmd, 'r' );
+while ( !feof( $handle ) ) {
+	file_put_contents( $log_file, fgets( $handle ), FILE_APPEND );
 }
-file_put_contents( $log_file , $log_out );
+$retval = pclose( $handle );
 
 
 // If failed mark the zip file with an _error
