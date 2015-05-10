@@ -64,13 +64,14 @@ cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModul
 
 # Build Firmware
 make -j
+RETVAL=$?
 
 # Stop showing commands
 set +x
 
 # If the build failed, make clean, then build again
 # Build log will be easier to read
-if [ $? -ne 0 ]; then
+if [ $RETVAL -ne 0 ]; then
 	make clean
 	make
 	RETVAL=$?

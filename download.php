@@ -31,16 +31,17 @@ foreach ( $map->matrix as $i => $key ) {
 	}
 }
 
-$header = implode("\n", array_map(function ($v, $k) { return $k . '=' . $v; }, (array)$map->header, array_keys((array)$map->header)));
+$header = implode("\n", array_map(function ($v, $k) { return $k . ' = "' . $v . '";'; }, (array)$map->header, array_keys((array)$map->header)));
 $files = array();
 $file_args = array();
 $hashbaby = $name . $layout; //Set name of base and layout here as an md5 seed
 $layout_name = $name . '-' . $layout;
 
+
 // Generate .kll files
 $max_layer = 0;
 foreach ($layers as $n => $layer) {
-	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '"'; }, $layer, array_keys($layer)));
+	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '";'; }, $layer, array_keys($layer)));
 	$out = $header . "\n\n" . $out . "\n";
 	$hashbaby .= $out;
 
@@ -49,6 +50,7 @@ foreach ($layers as $n => $layer) {
 	if ( $n > $max_layer ) {
 		$max_layer = $n;
 	}
+
 }
 
 // Now that the layout files are ready, create directory for compilation object files
@@ -56,30 +58,33 @@ $md5sum = md5($hashbaby);
 $objpath = './tmp/' . $md5sum;
 mkdir($objpath, 0700);
 
+
 // Run compilation, very simple, 1 layer per entry (script supports complicated entries)
 $cmd = './build_layout.bash ' . $md5sum . ' ';
 for ( $c = 0; $c < $max_layer; $c++ ) {
 	$path = $objpath . '/' . $files[$c]['name'];
-	file_put_contents( $path, $files[$c]['content'] . ';' ); // Write kll file
+	file_put_contents( $path, $files[$c]['content'] ); // Write kll file
 
-	$cmd .= '"' . $files[$c]['name'] . ' ' . $c . '" ';
+	$cmd .= '"' . $files[$c]['name'] . '" ';
 }
-$retval = 0;
 exec( escapeshellcmd( $cmd ), $output, $retval );
 
+
 // Make log file
-$log_out = '';
+$log_out = $cmd . "\n";
 $log_file = $objpath . '/build.log';
 foreach ($output as $line) {
 	$log_out .= $line . "\n";
 }
 file_put_contents( $log_file , $log_out );
 
+
 // If failed mark the zip file with an _error
 $error_str = '';
 if ( $retval != 0 ) {
 	$error_str = '_error';
 }
+
 
 // Always create the zip file (the date is always updated, which changes the binary)
 $zip_path = './tmp';
@@ -106,8 +111,8 @@ foreach ( array_merge( $hdr_files, $log_files ) as $file ) {
 	$zip->addFile( $file, "log/" . basename( $file ) );
 }
 
-
 $zip->close();
 
+// Output zip file path
 echo json_encode( array( 'success' => true, 'filename' => $zip_path . '/' . basename( $zipfile ) ) );
 exit;
