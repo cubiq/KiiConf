@@ -41,7 +41,7 @@ $layout_name = $name . '-' . $layout;
 // Generate .kll files
 $max_layer = 0;
 foreach ( $layers as $n => $layer ) {
-	$out = implode("\n", array_map(function ($v, $k) { return 'U"' . $k . '" : U"' . $v . '";'; }, $layer, array_keys($layer)));
+	$out = implode("\n", array_map(function ($v, $k) { return preg_match("/layerLock\( [0-9] \)/i", $v) ? 'U"' . $k . '" : ' . $v . ';' : 'U"' . $k . '" : U"' . $v . '";'; }, $layer, array_keys($layer)));
 	$out = $header . "\n\n" . $out . "\n\n";
 	$hashbaby .= $out;
 

@@ -60,11 +60,11 @@ APP.Class = function (debug) {
 		if ( 'group' in v ) {
 
 			if ( group != v.group ) {
-				$shortcutsGroup = $('#group-' + v.group).length ? $('#group-' + v.group) : $('<div id="group-' + v.group + '" class="group"></div>').appendTo($shortcuts);
+				$shortcutsGroup = $('#group-' + v.group).length ? $('#group-' + v.group) : $('<ul id="group-' + v.group + '" class="group"><li class="title">' + v.group + '</li></ul>').appendTo($shortcuts);
 				group = v.group;
 			}
 
-			$shortcutsGroup.append('<span class="shortcut-button" data-key="' + k + '">' + ( v.label || k ) + '</span>');
+			$shortcutsGroup.append('<li><span class="shortcut-button" data-key="' + k + '">' + ( v.label || k ) + '</span></li>');
 		}
 	});
 
@@ -216,6 +216,11 @@ APP.Class.prototype = {
 
 		if ( !data ) {
 			return;
+		}
+
+		// delete key
+		if ( data == '*CLEAR' ) {
+			data = false;
 		}
 
 		this._selectedKey.setKey(data, this._selectedLayer);

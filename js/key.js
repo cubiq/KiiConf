@@ -192,12 +192,19 @@ Key.prototype = {
 	setKey: function (value, layer) {
 		layer = layer || 0;
 
+		// special case: remove key
+		if ( value === false ) {
+			this.$element.find('.layer-' + layer).remove();
+			delete(this.layers[layer]);
+			return
+		}
+
 		if ( !(value in APP.keyDefaults) ) {
 			console.log('Key not present in the default definition');
 			return;
 		}
 
-		if ( ! (layer in this.layers) ) {
+		if ( !(layer in this.layers) ) {
 			$label = $('<div class="label layer-' + layer + '"></div>');
 			this.$element.append( $label );
 		} else {

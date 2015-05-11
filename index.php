@@ -17,7 +17,7 @@
 	<nav class="cf">
 		<select id="layout-list"><option value="">-</option><?php layoutList() ?></select>
 		<button type="button" id="load-layout" class="button-read">load layout</button>
-		<button type="button" id="download-map" class="button-write floatright">download map</button>
+		<button type="button" id="download-map" class="button-write floatright">download firmware</button>
 	</nav>
 
 	<ul id="layers" class="tabs">
@@ -36,7 +36,18 @@
 	</div>
 </div>
 
-<div id="shortcuts" class="shortcuts" style="display:none"></div>
+<div id="shortcuts" class="shortcuts cf" style="display:none">
+	<ul id="group-special" class="group">
+		<li class="title">special</li>
+		<li><span id="clear-key" class="shortcut-button" data-key="*CLEAR">CLEAR</span></li>
+		<li><span id="lock-2-key" class="shortcut-button" data-key="layerLock( 2 )">LOCK 2</span></li>
+		<li><span id="lock-3-key" class="shortcut-button" data-key="layerLock( 3 )">LOCK 3</span></li>
+		<li><span id="lock-4-key" class="shortcut-button" data-key="layerLock( 4 )">LOCK 4</span></li>
+		<li><span id="lock-5-key" class="shortcut-button" data-key="layerLock( 5 )">LOCK 5</span></li>
+		<li><span id="lock-6-key" class="shortcut-button" data-key="layerLock( 6 )">LOCK 6</span></li>
+		<li><span id="lock-7-key" class="shortcut-button" data-key="layerLock( 7 )">LOCK 7</span></li>
+	</ul>
+</div>
 
 </body>
 </html><?php

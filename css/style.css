@@ -199,23 +199,24 @@ big {
   font-size: 1.5em;
 }
 .shortcuts {
-  background-color: #eee;
-  padding: 10px;
   text-align: center;
-  margin: 0 40px;
-  font-size: 1.1em;
+  margin: 0 40px 40px 40px;
+  font-size: 1em;
   text-shadow: 0 1px #fff;
   color: #444;
+  font-size: 1.1em;
 }
 .shortcuts span {
-  display: inline-block;
-  background-color: #d9d9d9;
-  height: 30px;
-  line-height: 30px;
-  margin: 1px 1px 0 0;
-  padding: 0 10px;
+  display: block;
+  margin: 0;
+  height: 26px;
+  line-height: 28px;
+  overflow: hidden;
+  margin: 0 7px 7px 0;
   cursor: pointer;
-  border-bottom: 1px solid #c3c3c3;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 .shortcuts span:hover {
   background-color: #ffc;
@@ -224,10 +225,23 @@ big {
   font-size: 1em;
 }
 .shortcuts .group {
-  margin-bottom: 20px;
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
 }
 .shortcuts .group:last-child {
   margin: 0;
+}
+.shortcuts li {
+  display: block;
+  float: left;
+  width: 60px;
+}
+.shortcuts .title {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 5px;
+  color: #d00;
 }
 .button-read {
   background: #3FB10E;
@@ -289,6 +303,12 @@ nav {
   margin: -9999px auto 30px auto;
   overflow: hidden;
   border-radius: 5px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .container.layer-0 .layer-0,
 .container.layer-1 .layer-1,
@@ -396,15 +416,15 @@ nav {
   bottom: 2px;
   right: 2px;
   top: 2px;
-  background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 75%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 75%, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0)));
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 75%);
-  background: -o-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 75%);
-  background: -ms-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 75%);
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 75%);
-  background-color: #e3e3e3;
+  background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 75%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 75%, color-stop(0%, rgba(255, 255, 255, 0.5)), color-stop(100%, rgba(255, 255, 255, 0)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 75%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 75%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 75%);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 75%);
+  background-color: #e7e7e7;
   border-radius: 2px;
-  box-shadow: inset 0 -2px 0 #bbbbbb, inset 0 -4px 0 #bfbfbf, inset 0 1px 0 #f6f6f6, 0 0 0 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 -2px 0 #cccccc, inset 0 -4px 0 #cfcfcf, inset 0 1px 0 #f9f9f9, 0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 .key .label {
   position: absolute;
