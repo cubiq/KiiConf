@@ -243,6 +243,7 @@ APP.keyDefaults = {
 'FUN15': { y: 28, x: 56, w: 4, h: 4, label: 'ƒ15' }, 'FUNCTION15': { y: 28, x: 56, w: 4, h: 4, label: 'ƒ15' },
 'FUN16': { y: 28, x: 60, w: 4, h: 4, label: 'ƒ16' }, 'FUNCTION16': { y: 28, x: 60, w: 4, h: 4, label: 'ƒ16' },
 
+'layerLock( 1 )': { label: 'LOCK-1' },
 'layerLock( 2 )': { label: 'LOCK-2' },
 'layerLock( 3 )': { label: 'LOCK-3' },
 'layerLock( 4 )': { label: 'LOCK-4' },
