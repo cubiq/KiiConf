@@ -40,13 +40,6 @@
 	<ul id="group-special" class="group">
 		<li class="title">special</li>
 		<li><span id="clear-key" class="shortcut-button" data-key="*CLEAR">CLEAR</span></li>
-		<li><span id="lock-2-key" class="shortcut-button" data-key="layerLock( 1 )">LOCK 1</span></li>
-		<li><span id="lock-3-key" class="shortcut-button" data-key="layerLock( 2 )">LOCK 2</span></li>
-		<li><span id="lock-4-key" class="shortcut-button" data-key="layerLock( 3 )">LOCK 3</span></li>
-		<li><span id="lock-5-key" class="shortcut-button" data-key="layerLock( 4 )">LOCK 4</span></li>
-		<li><span id="lock-6-key" class="shortcut-button" data-key="layerLock( 5 )">LOCK 5</span></li>
-		<li><span id="lock-7-key" class="shortcut-button" data-key="layerLock( 6 )">LOCK 6</span></li>
-		<li><span id="lock-7-key" class="shortcut-button" data-key="layerLock( 7 )">LOCK 7</span></li>
 	</ul>
 </div>
 

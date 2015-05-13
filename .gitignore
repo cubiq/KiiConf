@@ -1,2 +1,3 @@
 layouts/*.json
 tmp/*.zip
+tmp/*/
