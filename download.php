@@ -45,6 +45,9 @@ foreach ( $layers as $n => $layer ) {
 		if ( preg_match("/^((CONS|SYS|#):)?(.+)/i", $v, $match) ) {
 			if ( $match[2] == '#' ) {
 				$v = $match[3];
+			/* XXX Dirty fix to use layerShift instead of FUN pseudo symbolic links */
+			} else if ( preg_match("/^FUN(.+)/i", $v, $match) )  {
+				$v = 'layerShift( ' . $match[1] . ' )';
 			} else {
 				$v = $match[2] . '"' . $match[3] . '"';
 			}
