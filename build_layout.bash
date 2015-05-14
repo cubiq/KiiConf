@@ -36,7 +36,7 @@ SOURCE_PATH=$(realpath controller)
 # Create build directory if necessary
 mkdir -p "${BUILD_PATH}"
 
-DEFAULT_MAP=$(layer ${1}); shift # Assign the default map
+DEFAULT_MAP="$(layer ${1}) stdFuncMap"; shift # Assign the default map
 
 # Make sure a there are layers to assign
 PARTIAL_MAPS=""
@@ -45,7 +45,7 @@ if test $# -gt 0; then
 	# Each layer is separated by a ;
 	PARTIAL_MAPS=$(layer ${1}); shift
 	while test $# -gt 0; do
-		PARTIAL_MAPS="${PARTIAL_MAPS};$(layer ${1})"; shift
+		PARTIAL_MAPS="${PARTIAL_MAPS};$(layer ${1}) stdFuncMap"; shift
 	done
 fi
 
@@ -56,7 +56,7 @@ cd "${BUILD_PATH}"
 set -x
 
 # NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
-cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP} stdFuncMap" -DPartialMaps="${PARTIAL_MAPS}"
+cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
 # Example working cmake command
 #cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="md1Overlay stdFuncMap" -DPartialMaps="hhkbpro2"
 
