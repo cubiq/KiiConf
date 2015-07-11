@@ -39,7 +39,7 @@
 <div id="shortcuts" class="shortcuts cf" style="display:none">
 	<ul id="group-special" class="group">
 		<li class="title">special</li>
-		<li><span id="clear-key" class="shortcut-button" data-key="*CLEAR">CLEAR</span></li>
+		<li><span id="clear-key" class="shortcut-button" data-key="*CLEAR">CLR-KEY</span></li>
 	</ul>
 </div>
 
