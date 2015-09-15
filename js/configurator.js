@@ -292,3 +292,4 @@ APP.Class.prototype = {
 window.APP = APP;
 
 })(window, document);
+

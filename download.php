@@ -77,7 +77,7 @@ mkdir( $objpath, 0700 );
 
 // Run compilation, very simple, 1 layer per entry (script supports complicated entries)
 $log_file = $objpath . '/build.log';
-$cmd = './build_layout.bash ' . $md5sum . ' ';
+$cmd = './build_layout.bash ' . $md5sum . ' ' . $name . ' ';
 for ( $c = 0; $c <= $max_layer; $c++ ) {
 	$path = $objpath . '/' . $files[$c]['name'];
 	file_put_contents( $path, $files[$c]['content'] ); // Write kll file
