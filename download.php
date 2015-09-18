@@ -1,13 +1,13 @@
 <?php
 header('Content-Type: application/json');
 
-$map = !empty( $_POST['map'] ) ? $_POST['map'] : '';
+$map_orig = !empty( $_POST['map'] ) ? $_POST['map'] : '';
 
-if ( !$map ) {
+if ( !$map_orig ) {
 	die( json_encode( array( 'error' => 'Malformed request' ) ) );
 }
 
-$map = json_decode( $map );
+$map = json_decode( $map_orig );
 
 $name = !empty( $map->header->Name ) ? preg_replace('/[^a-z0-9._]/i', '', str_replace(' ', '_', $map->header->Name)) : '';
 $layout = !empty( $map->header->Layout ) ? preg_replace('/[^a-z0-9._]/i', '', str_replace(' ', '_', $map->header->Layout)) : '';
@@ -47,9 +47,6 @@ foreach ( $layers as $n => $layer ) {
 				$v = $match[3];
 			} else if ( $match[2] == 'CONS' or $match[2] == 'SYS' ) {
 				$v = $match[2] . '"' . $match[3] . '"';
-			/* XXX Dirty fix to use layerShift instead of FUN pseudo symbolic links */
-			} else if ( preg_match("/^FUN(.+)/i", $v, $match) )  {
-				$v = 'layerShift( ' . $match[1] . ' )';
 			} else {
 				$v = 'U"' . $v . '"';
 			}
@@ -73,6 +70,11 @@ foreach ( $layers as $n => $layer ) {
 $md5sum = md5( $hashbaby );
 $objpath = './tmp/' . $md5sum;
 mkdir( $objpath, 0700 );
+
+
+// Save the configuration json to the folder in order to import later
+$path = $objpath . '/' .$name . '-' . $layout . '.json';
+file_put_contents( $path, $map_orig );
 
 
 // Run compilation, very simple, 1 layer per entry (script supports complicated entries)
@@ -105,13 +107,14 @@ $zip_path = './tmp';
 $zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . $error_str . '.zip';
 $zip = new ZipArchive;
 $zip->open( $zipfile, ZipArchive::CREATE );
-$kll_files = glob( $objpath . "/*.kll", GLOB_NOCHECK );
-$bin_files = glob( $objpath . "/*.dfu.bin", GLOB_NOCHECK );
-$log_files = glob( $objpath . "/*.log", GLOB_NOCHECK );
-$hdr_files = glob( $objpath . "/*.h", GLOB_NOCHECK );
+$kll_files  = glob( $objpath . "/*.kll", GLOB_NOCHECK );
+$bin_files  = glob( $objpath . "/*.dfu.bin", GLOB_NOCHECK );
+$log_files  = glob( $objpath . "/*.log", GLOB_NOCHECK );
+$hdr_files  = glob( $objpath . "/*.h", GLOB_NOCHECK );
+$json_files = glob( $objpath . "/*.json", GLOB_NOCHECK );
 
 // Add each of the files, flattening the dir hierarchy
-foreach ( array_merge( $kll_files, $bin_files ) as $file ) {
+foreach ( array_merge( $kll_files, $bin_files, $json_files ) as $file ) {
 	$zip->addFile( $file, basename( $file ) );
 }
 

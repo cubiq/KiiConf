@@ -17,6 +17,7 @@
 	<nav class="cf">
 		<select id="layout-list"><option value="">-</option><?php layoutList() ?></select>
 		<button type="button" id="load-layout" class="button-read">load layout</button>
+		<button type="button" id="import-map" class="button-read">import map</button>
 		<input type="button" onclick="location.href='https://github.com/kiibohd/KiiConf';" value="Wiki" />
 		<input type="button" onclick="location.href='stats.json';" value="Version" />
 		<button type="button" id="download-map" class="button-write floatright">download firmware</button>

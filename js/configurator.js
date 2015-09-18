@@ -74,6 +74,17 @@ APP.Class = function (debug) {
 	$('#load-layout')
 		.on('click', $.proxy(this.loadLayout, this, ''));
 
+	// import button
+	$('#import-map').click(function () {
+		new popup(
+			'Import a previously created layout</br>Must be valid json',
+			'import map',
+			'',
+			$.proxy(that.buildLayout, that)
+		);
+	});
+
+
 	// download button
 	$('#download-map')
 		.on('click', $.proxy(this.downloadMap, this));
@@ -104,8 +115,6 @@ APP.Class = function (debug) {
 
 APP.Class.prototype = {
 	loadLayout: function (file) {
-		this.clearLayout();
-
 		file = file || $('#layout-list').val();
 
 		if ( ! file ) {
@@ -117,6 +126,7 @@ APP.Class.prototype = {
 	},
 
 	buildLayout: function (layout) {
+		this.clearLayout();
 		this.header = layout.header;
 
 		var matrix = layout.matrix;
@@ -286,6 +296,57 @@ APP.Class.prototype = {
 				alert('Connection error!');
 			}
 		});
+	}
+};
+
+function popup (title, action, value, cb) {
+	var that = this;
+
+	this.$cover = $('<div>')
+		.addClass('cover')
+		.appendTo('body');
+
+	this.$popup = $('<div>')
+		.addClass('popup')
+		.appendTo('body');
+
+	$('<h1>')
+		.html(title)
+		.appendTo(this.$popup);
+
+	var $map = $('<textarea>')
+		.html(value)
+		.appendTo(this.$popup);
+
+	var $buttons = $('<div>').appendTo(this.$popup);
+
+	$('<button>')
+		.attr('type', 'button')
+		.html('cancel')
+		.addClass('button-cancel')
+		.click( $.proxy(this.destroy, this) )
+		.appendTo($buttons);
+
+	$('<button>')
+		.attr('type', 'button')
+		.html(action)
+		.addClass('button-read')
+		.click(function () {
+			if ( !$map.val() ) {
+				alert('c\'mon be creative!');
+				return;
+			}
+
+			cb(jQuery.parseJSON($map.val()));
+			that.destroy();
+		})
+		.appendTo($buttons);
+}
+
+popup.prototype = {
+	destroy: function () {
+		this.$cover.remove();
+		this.$popup.remove();
 	}
 };
 

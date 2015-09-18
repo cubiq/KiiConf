@@ -45,11 +45,14 @@ DEFAULT_MAP="$(layer ${1}) stdFuncMap"; shift # Assign the default map
 
 # Make sure a there are layers to assign
 PARTIAL_MAPS=""
+ERGODOX_PARTIAL_MAPS=""
 if test $# -gt 0; then
 	# Assign the parital map paramters
 	# Each layer is separated by a ;
-	PARTIAL_MAPS=$(layer ${1}); shift
+	ERGODOX_PARTIAL_MAPS="$(layer ${1}) lcdFuncMap"
+	PARTIAL_MAPS="$(layer ${1}) stdFuncMap"; shift
 	while test $# -gt 0; do
+		ERGODOX_PARTIAL_MAPS="${ERGODOX_PARTIAL_MAPS};$(layer ${1}) lcdFuncMap"
 		PARTIAL_MAPS="${PARTIAL_MAPS};$(layer ${1}) stdFuncMap"; shift
 	done
 fi
@@ -63,7 +66,7 @@ default_build() {
 	set -x
 
 	# NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
-	cmake ${SOURCE_PATH} -DScanModule="$SCAN_MODULE" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
+	cmake ${SOURCE_PATH} -DScanModule="$SCAN_MODULE" -DCHIP="${CHIP}" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
 	#cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="${DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
 	# Example working cmake command
 	#cmake ${SOURCE_PATH} -DScanModule="MD1" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DBaseMap="defaultMap" -DDefaultMap="md1Overlay stdFuncMap" -DPartialMaps="hhkbpro2"
@@ -110,7 +113,7 @@ ergodox_build() {
 	# NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
 	echo $SIDE
 	echo ${!SIDE}
-	cmake ${SOURCE_PATH} -DScanModule="$SCAN_MODULE" -DBaseMap="${!SIDE}" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DDefaultMap="${ERGODOX_DEFAULT_MAP}" -DPartialMaps="${PARTIAL_MAPS}"
+	cmake ${SOURCE_PATH} -DScanModule="$SCAN_MODULE" -DCHIP="${CHIP}" -DBaseMap="${!SIDE}" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DDefaultMap="${ERGODOX_DEFAULT_MAP}" -DPartialMaps="${ERGODOX_PARTIAL_MAPS}"
 
 	# Build Firmware
 	make -j
@@ -139,6 +142,7 @@ ergodox_build() {
 case "$SCAN_MODULE" in
 # Ergodox
 "MDErgo1")
+	CHIP="mk20dx256vlh7"
 	left="defaultMap leftHand slave1 rightHand"
 	right="defaultMap rightHand slave1 leftHand"
 
@@ -162,6 +166,7 @@ case "$SCAN_MODULE" in
 
 # General
 *)
+	CHIP="mk20dx128vlf5"
 	default_build
 	;;
 esac
