@@ -111,8 +111,6 @@ ergodox_build() {
 	cp ../*.kll .
 
 	# NOTE: To add different layers -> -DPartialMaps="layer1 layer1a;layer2 layer2a;layer3"
-	echo $SIDE
-	echo ${!SIDE}
 	cmake ${SOURCE_PATH} -DScanModule="$SCAN_MODULE" -DCHIP="${CHIP}" -DBaseMap="${!SIDE}" -DMacroModule="PartialMap" -DOutputModule="pjrcUSB" -DDebugModule="full" -DDefaultMap="${ERGODOX_DEFAULT_MAP}" -DPartialMaps="${ERGODOX_PARTIAL_MAPS}"
 
 	# Build Firmware

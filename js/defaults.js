@@ -243,6 +243,8 @@ APP.keyDefaults = {
 'PDECIMAL': { y: 0, x: 0, w: 4, h: 4 }, 'KEYPAD DECIMAL': { y: 0, x: 0, w: 4, h: 4 },
 'PHEX': { y: 0, x: 0, w: 4, h: 4 }, 'KEYPAD HEX': { y: 0, x: 0, w: 4, h: 4 },
 
+'#:None': { label: 'NONE', group: 'special' },
+
 'FUN1': { y: 28, x: 0, w: 4, h: 4, label: 'ƒ1', group: 'special' }, 'FUNCTION1': { y: 28, x: 0, w: 4, h: 4, label: 'ƒ1' }, 'FUN': { y: 28, x: 0, w: 4, h: 4, label: 'ƒ1' },
 'FUN2': { y: 28, x: 4, w: 4, h: 4, label: 'ƒ2', group: 'special' }, 'FUNCTION2': { y: 28, x: 4, w: 4, h: 4, label: 'ƒ2' },
 'FUN3': { y: 28, x: 8, w: 4, h: 4, label: 'ƒ3', group: 'special' }, 'FUNCTION3': { y: 28, x: 8, w: 4, h: 4, label: 'ƒ3' },
