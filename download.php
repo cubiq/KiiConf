@@ -11,12 +11,13 @@ $map = json_decode( $map_orig );
 
 $name = !empty( $map->header->Name ) ? preg_replace('/[^a-z0-9._]/i', '', str_replace(' ', '_', $map->header->Name)) : '';
 $layout = !empty( $map->header->Layout ) ? preg_replace('/[^a-z0-9._]/i', '', str_replace(' ', '_', $map->header->Layout)) : '';
+$base_layout = !empty( $map->header->Base ) ? preg_replace('/[^a-z0-9._]/i', '', str_replace(' ', '_', $map->header->Base)) : '';
 
 if ( !$name || !$layout ) {
 	die( json_encode( array( 'error' => 'Malformed header' ) ) );
 }
 
-$default = './layouts/' . $name . '-' . $layout . '.json';
+$default = './layouts/' . $name . '-' . $base_layout . '.json';
 $default = json_decode( file_get_contents($default) );
 $default = $default->matrix;
 

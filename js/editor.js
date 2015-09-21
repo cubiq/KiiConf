@@ -30,7 +30,7 @@ function APP (debug) {
 	return _instance;
 }
 
-APP.VERSION = '0.1';
+APP.VERSION = '0.2';
 APP.GENERATOR = 'KIICONF';
 
 APP.GRID_SIZE = 10;
@@ -82,12 +82,13 @@ APP.Class.prototype = {
 		this.clearKeyboardMap();
 
 		this.header = {
-			Name: map.match(/Name ?= ?"?([^;"]*)"?;/i),
-			Layout: map.match(/Layout ?= ?"?([^;"]*)"?;/i) || 'Default',
-			Version: map.match(/Version ?= ?"?([^;"]*)"?;/i),
-			Author: map.match(/Author ?= ?"?([^;"]*)"?;/i),
-			KLL: map.match(/KLL ?= ?"?([^;"]*);"?/i),
-			'Date': map.match(/Date ?= ?"?([^;"]*)"?;/i),
+			Name:      map.match(/Name ?= ?"?([^;"]*)"?;/i),
+			Layout:    map.match(/Layout ?= ?"?([^;"]*)"?;/i) || 'Default',
+			Base:      map.match(/Base ?= ?"?([^;"]*)"?;/i) || 'Blank',
+			Version:   map.match(/Version ?= ?"?([^;"]*)"?;/i),
+			Author:    map.match(/Author ?= ?"?([^;"]*)"?;/i),
+			KLL:       map.match(/KLL ?= ?"?([^;"]*);"?/i),
+			'Date':    map.match(/Date ?= ?"?([^;"]*)"?;/i),
 			Generator: APP.GENERATOR + ' ' + APP.VERSION
 		};
 
