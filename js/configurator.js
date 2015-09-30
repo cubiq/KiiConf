@@ -109,7 +109,9 @@ APP.Class = function (debug) {
 	this.displayLayers();
 
 	if ( debug ) {
-		this.loadLayout( $("#layout-list option:eq(1)").val() );
+		this.loadLayout( $("#layout-list option:eq(0)").val() );
+	} else {
+		this.loadLayout( $("#layout-list option:selected").val() );
 	}
 };
 

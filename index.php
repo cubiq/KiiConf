@@ -11,11 +11,11 @@
 	<script src="js/key.js"></script>
 	<script src="js/defaults.js"></script>
 </head>
-<body onload="APP(true)" class="configurator">
+<body onload="APP(false)" class="configurator">
 
 <div id="wrapper" class="wrapper">
 	<nav class="cf">
-		<select id="layout-list"><option value="">-</option><?php layoutList() ?></select>
+		<select id="layout-list"><?php layoutList() ?></select>
 		<button type="button" id="load-layout" class="button-read">load layout</button>
 		<button type="button" id="import-map" class="button-read">import map</button>
 		<input type="button" onclick="location.href='https://github.com/kiibohd/KiiConf';" value="Wiki" />
@@ -52,11 +52,17 @@
 function layoutList () {
 	$directory = './layouts/*.json';
 
+	$specified_layout = $_GET["layout"];
+
 	$files = glob($directory);
 
 	foreach ($files as $layout) {
 		$layout = basename($layout, '.json');
 
-		echo '<option value="' . $layout . '">' . str_replace('-', ' ', $layout) . '</option>';
+		// Check to see if the specified layout matches one on the server
+		// If it matches have it selected by default
+		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' selected="selected" ' : '';
+
+		echo '<option value="' . $layout . '"' . $selected . '>' . str_replace('-', ' ', $layout) . '</option>';
 	}
 }
