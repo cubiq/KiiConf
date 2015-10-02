@@ -154,7 +154,6 @@ APP.keyDefaults = {
 'CONS:CALCULATOR': { y: 0, x: 0, w: 4, h: 4, label: 'CALC', group: 'multimedia' },
 'CONS:INTERNETBROWSER': { y: 0, x: 0, w: 4, h: 4, label: 'WEB', group: 'multimedia' },
 'CONS:FILEBROWSER': { y: 0, x: 0, w: 4, h: 4, label: 'FILES', group: 'multimedia' },
-'CONS:TEXTEDITOR': { y: 0, x: 0, w: 4, h: 4, label: 'EDITOR', group: 'multimedia' },
 
 'SYS:POWERDOWN': { y: 0, x: 0, w: 4, h: 4, label: 'POWER', group: 'multimedia' },
 'SYS:SLEEP': { y: 0, x: 0, w: 4, h: 4, label: 'SLEEP', group: 'multimedia' },
