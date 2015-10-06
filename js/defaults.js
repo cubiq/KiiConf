@@ -69,8 +69,8 @@ APP.keyDefaults = {
 
 '-': { y: 5, x: 54, w: 4, h: 4 }, 'MINUS': { y: 5, x: 54, w: 4, h: 4, label: '-' },
 '=': { y: 5, x: 58, w: 4, h: 4 }, 'EQUALS': { y: 5, x: 58, w: 4, h: 4, label: '=' }, 'EQUAL': { y: 5, x: 58, w: 4, h: 4, label: '=' },
-'{': { y: 9, x: 56, w: 4, h: 4 }, 'LEFT BRACE': { y: 9, x: 56, w: 4, h: 4, label: '{' }, 'LBRACE': { y: 9, x: 56, w: 4, h: 4, label: '{' },
-'}': { y: 9, x: 60, w: 4, h: 4 }, 'RIGHT BRACE': { y: 9, x: 60, w: 4, h: 4, label: '}' }, 'RBRACE': { y: 9, x: 60, w: 4, h: 4, label: '}' },
+'[': { y: 9, x: 56, w: 4, h: 4 }, 'LEFT BRACE': { y: 9, x: 56, w: 4, h: 4, label: '[' }, 'LBRACE': { y: 9, x: 56, w: 4, h: 4, label: '[' },
+']': { y: 9, x: 60, w: 4, h: 4 }, 'RIGHT BRACE': { y: 9, x: 60, w: 4, h: 4, label: ']' }, 'RBRACE': { y: 9, x: 60, w: 4, h: 4, label: ']' },
 '\\': { y: 9, x: 64, w: 6, h: 4 }, 'BACKSLASH': { y: 9, x: 64, w: 6, h: 4, label: '\\' },
 '#': { y: 0, x: 0, w: 4, h: 4 }, 'NUMBER': { y: 0, x: 0, w: 4, h: 4, label: '#' }, 'HASH': { y: 0, x: 0, w: 4, h: 4, label: '#' },
 ';': { y: 13, x: 53, w: 4, h: 4 }, 'SEMICOLON': { y: 13, x: 53, w: 4, h: 4, label: ';' },
@@ -324,6 +324,27 @@ APP.keyDefaults = {
 '#:layerShift( 6 )': { label: 'SHIFT-6', group: 'special' },
 '#:layerShift( 7 )': { label: 'SHIFT-7', group: 'special' },
 */
+
+// Simple Shift combinations
+"#:'!'": { label: '!', group: 'Simple Macros' },
+//"#:'@'": { label: '@', group: 'Simple Macros' },
+"#:'#'": { label: '#', group: 'Simple Macros' },
+"#:'$'": { label: '$', group: 'Simple Macros' },
+"#:'%'": { label: '%', group: 'Simple Macros' },
+"#:'^'": { label: '^', group: 'Simple Macros' },
+"#:'&'": { label: '&', group: 'Simple Macros' },
+"#:'*'": { label: '*', group: 'Simple Macros' },
+"#:'('": { label: '(', group: 'Simple Macros' },
+"#:')'": { label: ')', group: 'Simple Macros' },
+"#:'_'": { label: '_', group: 'Simple Macros' },
+"#:'+'": { label: '+', group: 'Simple Macros' },
+//"#:'{'": { label: '{', group: 'Simple Macros' },
+//"#:'}'": { label: '}', group: 'Simple Macros' },
+//"#:'|'": { label: '|', group: 'Simple Macros' },
+"#:'<'": { label: '<', group: 'Simple Macros' },
+"#:'>'": { label: '>', group: 'Simple Macros' },
+//"#:'?'": { label: '?', group: 'Simple Macros' },
+
 };
 
 APP.keyCodes = {
