@@ -326,8 +326,9 @@ APP.keyDefaults = {
 */
 
 // Simple Shift combinations
+"#:'~'": { label: '~', group: 'simple macros' },
 "#:'!'": { label: '!', group: 'simple macros' },
-//"#:'@'": { label: '@', group: 'simple macros' },
+"#:'@'": { label: '@', group: 'simple macros' },
 "#:'#'": { label: '#', group: 'simple macros' },
 "#:'$'": { label: '$', group: 'simple macros' },
 "#:'%'": { label: '%', group: 'simple macros' },
@@ -338,12 +339,12 @@ APP.keyDefaults = {
 "#:')'": { label: ')', group: 'simple macros' },
 "#:'_'": { label: '_', group: 'simple macros' },
 "#:'+'": { label: '+', group: 'simple macros' },
-//"#:'{'": { label: '{', group: 'simple macros' },
-//"#:'}'": { label: '}', group: 'simple macros' },
-//"#:'|'": { label: '|', group: 'simple macros' },
+"#:'{'": { label: '{', group: 'simple macros' },
+"#:'}'": { label: '}', group: 'simple macros' },
+"#:'|'": { label: '|', group: 'simple macros' },
 "#:'<'": { label: '<', group: 'simple macros' },
 "#:'>'": { label: '>', group: 'simple macros' },
-//"#:'?'": { label: '?', group: 'simple macros' },
+"#:'?'": { label: '?', group: 'simple macros' },
 
 };
 
