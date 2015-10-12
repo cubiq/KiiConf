@@ -303,6 +303,8 @@ APP.keyDefaults = {
 '#:ledControl( 4, 15, 0 )': { y: 28, x: 0, w: 4, h: 4, label: 'LED+', group: 'special' },
 '#:ledControl( 5, 0, 0 )': { y: 28, x: 0, w: 4, h: 4, label: 'LED OFF', group: 'special' },
 
+'#:flashMode()': { y: 28, x: 0, w: 4, h: 4, label: 'FLASH', group: 'special' },
+
 // No longer used, symbolic names are more useful
 /*
 '#:layerLock( 1 )': { label: 'LOCK-1', group: 'special' },
