@@ -26,9 +26,7 @@ $layers = array();
 // Find the differences between the default map and the user's map
 foreach ( $map->matrix as $i => $key ) {
 	foreach ( $key->layers as $l => $layer ) {
-		if ( $default[$i]->layers->{0}->key != $layer->key ) {
-			$layers[$l][$default[$i]->layers->{0}->key] = $layer->key;
-		}
+		$layers[$l][$default[$i]->layers->{0}->key] = $layer->key;
 	}
 }
 
