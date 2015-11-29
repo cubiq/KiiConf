@@ -46,18 +46,18 @@ cd $ORIG_DIR
 echo "
 {
 	\"KiiConf\" : {
-		\"gitrev\"  : \"$(gitrev .)\"
-		\"gitdate\" : \"$(gitdate .)\"
+		\"gitrev\"  : \"$(gitrev .)\",
+		\"gitdate\" : \"$(gitdate .)\",
 		\"url\"     : \"$(gitrepourl .)\"
 	},
 	\"controller\" : {
-		\"gitrev\"  : \"$(gitrev ${CODE_PATH})\"
-		\"gitdate\" : \"$(gitdate ${CODE_PATH})\"
+		\"gitrev\"  : \"$(gitrev ${CODE_PATH})\",
+		\"gitdate\" : \"$(gitdate ${CODE_PATH})\",
 		\"url\"     : \"$(gitrepourl ${CODE_PATH})\"
 	},
 	\"kll\" : {
-		\"gitrev\"  : \"$(gitrev ${CODE_PATH}/${KLL_PATH})\"
-		\"gitdate\" : \"$(gitdate ${CODE_PATH}/${KLL_PATH})\"
+		\"gitrev\"  : \"$(gitrev ${CODE_PATH}/${KLL_PATH})\",
+		\"gitdate\" : \"$(gitdate ${CODE_PATH}/${KLL_PATH})\",
 		\"url\"     : \"$(gitrepourl ${CODE_PATH}/${KLL_PATH})\"
 	}
 }
