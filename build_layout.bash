@@ -162,6 +162,12 @@ case "$SCAN_MODULE" in
 	exit $RETVAL
 	;;
 
+# WhiteFox
+"WhiteFox")
+	CHIP="mk20dx256vlh7"
+	default_build
+	;;
+
 # General
 *)
 	CHIP="mk20dx128vlf5"
