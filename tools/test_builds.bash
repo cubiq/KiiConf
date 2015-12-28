@@ -2,6 +2,8 @@
 # Jacob Alexander 2015
 # Build error finder
 
+cd $(dirname $(readlink -f $0))/..
+
 for dir in $(find tmp -mindepth 1 -maxdepth 1 -type d); do
 	cd $dir
 

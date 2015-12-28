@@ -1,6 +1,8 @@
 #!/bin/bash
 # Jacob Alexander 2015
 
+cd $(dirname $(readlink -f $0))/..
+
 CODE_PATH="controller"
 KLL_PATH="kll"
 URL="https://github.com/kiibohd/controller.git"
