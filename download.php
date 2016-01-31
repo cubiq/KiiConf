@@ -71,28 +71,9 @@ $objpath = './tmp/' . $md5sum;
 mkdir( $objpath, 0700 );
 
 
-// Human Readable JSON converter
-function jsonPretty( $str )
-{
-	$descriptorSpec = array(
-		0 => array('pipe', 'r'),  // stdin is a pipe that the child will read from
-		1 => array('pipe', 'w'),  // stdout is a pipe that the child will write to
-	);
-	$fp = proc_open( '/usr/bin/env python -mjson.tool', $descriptorSpec, $pipes );
-	fputs( $pipes[0], $str );
-	fclose( $pipes[0] );
-	$str = '';
-	while( !feof($pipes[1]) )
-	{
-		$str .= $chunk = fgets( $pipes[1], 1024 );
-	}
-	fclose( $pipes[1] );
-	return $str;
-}
-
 // Save the configuration json to the folder in order to import later
 $path = $objpath . '/' .$name . '-' . $layout . '.json';
-file_put_contents( $path, jsonPretty( $map_orig ) );
+file_put_contents( $path, json_encode( $map, JSON_PRETTY_PRINT ) );
 
 
 // Run compilation, very simple, 1 layer per entry (script supports complicated entries)
