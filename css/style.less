@@ -54,6 +54,7 @@ button {
 	color: #fff;
 }
 
+.pseudo-select,
 select {
 	float: left;
 	padding: 3px 4px 4px 4px;
@@ -63,6 +64,89 @@ select {
 	margin: 1px 10px 1px 0;
 	color: #000;
 	background-color: #fff;
+}
+
+.pseudo-select {
+	position: relative;
+	z-index: 9999;
+	padding: 5px;
+	min-width: 140px;
+
+	span {
+		display: block;
+		cursor: pointer;
+
+		&::after {
+			content: '▼';
+			margin-left: 10px;
+			padding-right: 5px;
+			float: right;
+		}
+	}
+
+	&.show > ul {
+		left: 0;
+	}
+
+
+	ul {
+		position: absolute;
+		top: 100%;
+		left: -99999%;
+		width: 100%;
+		background: #fff;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+		border: 1px solid #ccc;
+
+		a {
+			display: block;
+			padding: 1em;
+			text-decoration: none;
+			color: #222;
+
+			&::after {
+				float: right;
+				content: '▶';
+			}
+		}
+
+		.selected {
+			background: #eee;
+			font-weight: bold;
+			border-left: 2px solid #c00;
+
+			a {
+				&::after {
+					float: right;
+					content: '✓';
+				}
+			}
+		}
+
+		li {
+			position: relative;
+			border-bottom: 1px solid #ccc;
+
+			&:hover {
+				background: #4eaff5;
+
+				ul {
+					top: -1px;
+				}
+			}
+		}
+
+		ul {
+			a::after {
+				content: '';
+			}
+
+			position: absolute;
+			top: -99999%;
+			left: 100%;
+			width: 100%;
+		}
+	}
 }
 
 button[disabled] {
@@ -436,4 +520,3 @@ nav {
 }
 
 // configurator
-

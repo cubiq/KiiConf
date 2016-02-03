@@ -1,6 +1,6 @@
 /*
 	KII Keyboard Editor
-	Copyright (C) 2015 Matteo Spinelli
+	Copyright (C) 2016 Matteo Spinelli
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ function APP (debug) {
 	return _instance;
 }
 
-APP.VERSION = '0.1';
+APP.VERSION = '0.1.1';
 APP.GENERATOR = 'KIICONF';
 
 APP.GRID_SIZE = 13;
@@ -70,10 +70,6 @@ APP.Class = function (debug) {
 
 	$shortcuts.on('click', $.proxy(this.shortcut, this) );
 
-	// load button
-	$('#load-layout')
-		.on('click', $.proxy(this.loadLayout, this, ''));
-
 	// import button
 	$('#import-map').click(function () {
 		new popup(
@@ -84,18 +80,17 @@ APP.Class = function (debug) {
 		);
 	});
 
-
 	// download button
 	$('#download-map')
 		.on('click', $.proxy(this.downloadMap, this));
 
 	// tab switch
 	$('#layers li').on('click', function (e) {
-		e.stopPropagation();
+		//e.stopPropagation();
 		that.layerSelect.call(that, this);
 	});
 
-	// display layers
+	// show/hide layers
 	$('#layers input').on('click', function (e) {
 		e.stopPropagation();
 		that.displayLayers.call(that, this);
@@ -108,19 +103,30 @@ APP.Class = function (debug) {
 
 	this.displayLayers();
 
-	if ( debug ) {
-		this.loadLayout( $("#layout-list option:eq(0)").val() );
-	} else {
-		this.loadLayout( $("#layout-list option:selected").val() );
-	}
+	// drop down layout select
+	var $layoutList = $('#layout-list');
+	$layoutList.on('click', function (e) {
+		e.stopPropagation();
+
+		var $el = $(this);
+		$el.toggleClass('show');
+
+		if ( $el.hasClass('show') ) {
+			that.$document.one('click', function () {
+				$el.removeClass('show');
+			});
+		}
+	});
+
+	this.loadLayout( $layoutList.find('.selected').data('layout') );
 };
 
 APP.Class.prototype = {
 	loadLayout: function (file) {
-		file = file || $('#layout-list').val();
+		file = file || $('#layout-list .selected').data('layout');
 
 		if ( ! file ) {
-			alert('Select a layout first!');
+			alert('Error loading layout. Please refresh the page.');
 			return;
 		}
 
@@ -355,4 +361,3 @@ popup.prototype = {
 window.APP = APP;
 
 })(window, document);
-

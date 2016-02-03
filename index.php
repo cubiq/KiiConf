@@ -15,8 +15,7 @@
 
 <div id="wrapper" class="wrapper">
 	<nav class="cf">
-		<select id="layout-list"><?php layoutList() ?></select>
-		<button type="button" id="load-layout" class="button-read">load layout</button>
+		<div id="layout-list" class="pseudo-select"><?php layoutList() ?></div>
 		<button type="button" id="import-map" class="button-read">import map</button>
 		<input type="button" onclick="window.top.location.href='https://github.com/kiibohd/KiiConf';" value="Wiki" />
 		<input type="button" onclick="location.href='stats.json';" value="Version" />
@@ -52,17 +51,33 @@
 function layoutList () {
 	$directory = './layouts/*.json';
 
-	$specified_layout = $_GET["layout"];
+	$specified_layout = !empty($_GET['layout']) ? $_GET['layout'] : 'KType-Blank'; // default to KType-Blank
 
 	$files = glob($directory);
+	$old_keyboard = '';
+	$out = '<span id="active-layout-title">' . str_replace('-', ' ', $specified_layout) . '</span><ul>' . "\n";
 
 	foreach ($files as $layout) {
 		$layout = basename($layout, '.json');
 
-		// Check to see if the specified layout matches one on the server
-		// If it matches have it selected by default
-		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' selected="selected" ' : '';
+		list($keyboard, $variant) = explode('-', $layout, 2);
 
-		echo '<option value="' . $layout . '"' . $selected . '>' . str_replace('-', ' ', $layout) . '</option>';
+		if ( $keyboard !== $old_keyboard ) {
+			if ( $old_keyboard !== '' ) {
+				$out .= '</ul></li>' . "\n";
+			}
+
+			$out .= '<li>' . "\n";
+			$out .= '<a href="">' . htmlspecialchars($keyboard) . '</a>' . "\n";
+			$out .= '<ul>' . "\n";
+
+			$old_keyboard = $keyboard;
+		}
+
+		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' class="selected" ' : '';
+		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="./?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
 	}
+
+	$out .= '</ul></li></ul>';
+	echo $out;
 }
