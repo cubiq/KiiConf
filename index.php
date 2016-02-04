@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>KII Keyboard Configurator</title>
 
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo filemtime('css/style.css') ?>">
 	<script src="lib/jquery-2.1.3.min.js"></script>
 	<script src="js/configurator.js"></script>
 	<script src="js/key.js"></script>
@@ -68,14 +68,14 @@ function layoutList () {
 			}
 
 			$out .= '<li>' . "\n";
-			$out .= '<a href="">' . htmlspecialchars($keyboard) . '</a>' . "\n";
+			$out .= '<a href="#" onclick="return false">' . htmlspecialchars($keyboard) . '</a>' . "\n";
 			$out .= '<ul>' . "\n";
 
 			$old_keyboard = $keyboard;
 		}
 
 		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' class="selected" ' : '';
-		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="./?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
+		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="/?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
 	}
 
 	$out .= '</ul></li></ul>';
