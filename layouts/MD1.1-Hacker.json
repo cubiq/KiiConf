@@ -1,6 +1,6 @@
 {
     "header": {
-        "Name": "MD1",
+        "Name": "MD1.1",
         "Layout": "Hacker",
         "Base": "HackerBlank",
         "Version": "0.2",
@@ -494,6 +494,10 @@
                 "1": {
                     "key": "CONS:VOLUMEDOWN",
                     "label": "VOL-"
+                },
+                "2": {
+                    "key": "#:ledControl( 3, 15, 0 )",
+                    "label": "LED-"
                 }
             }
         },
@@ -511,6 +515,10 @@
                 "1": {
                     "key": "CONS:VOLUMEUP",
                     "label": "VOL+"
+                },
+                "2": {
+                    "key": "#:ledControl( 4, 15, 0 )",
+                    "label": "LED+"
                 }
             }
         },
@@ -528,6 +536,10 @@
                 "1": {
                     "key": "CONS:MUTE",
                     "label": "MUTE"
+                },
+                "2": {
+                    "key": "#:ledControl( 5, 0, 0 )",
+                    "label": "LED OFF"
                 }
             }
         },

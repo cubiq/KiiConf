@@ -75,7 +75,7 @@ function layoutList () {
 		}
 
 		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' class="selected" ' : '';
-		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="/?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
+		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
 	}
 
 	$out .= '</ul></li></ul>';

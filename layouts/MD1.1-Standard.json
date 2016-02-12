@@ -1,8 +1,8 @@
 {
     "header": {
-        "Name": "MD1",
-        "Layout": "Hacker",
-        "Base": "HackerBlank",
+        "Name": "MD1.1",
+        "Layout": "Standard",
+        "Base": "StandardBlank",
         "Version": "0.2",
         "Author": "HaaTa (Jacob Alexander) 2014",
         "KLL": "0.3",
@@ -494,6 +494,10 @@
                 "1": {
                     "key": "CONS:VOLUMEDOWN",
                     "label": "VOL-"
+                },
+                "2": {
+                    "key": "#:ledControl( 3, 15, 0 )",
+                    "label": "LED-"
                 }
             }
         },
@@ -511,6 +515,10 @@
                 "1": {
                     "key": "CONS:VOLUMEUP",
                     "label": "VOL+"
+                },
+                "2": {
+                    "key": "#:ledControl( 4, 15, 0 )",
+                    "label": "LED+"
                 }
             }
         },
@@ -528,6 +536,10 @@
                 "1": {
                     "key": "CONS:MUTE",
                     "label": "MUTE"
+                },
+                "2": {
+                    "key": "#:ledControl( 5, 0, 0 )",
+                    "label": "LED OFF"
                 }
             }
         },
@@ -869,7 +881,7 @@
             "code": "0x37",
             "x": 10,
             "y": 21,
-            "w": 6,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -880,9 +892,9 @@
         },
         {
             "code": "0x38",
-            "x": 16,
+            "x": 15,
             "y": 21,
-            "w": 4,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -895,7 +907,7 @@
             "code": "0x39",
             "x": 20,
             "y": 21,
-            "w": 6,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -906,9 +918,9 @@
         },
         {
             "code": "0x3A",
-            "x": 26,
+            "x": 25,
             "y": 21,
-            "w": 24,
+            "w": 25,
             "h": 4,
             "layers": {
                 "0": {
@@ -921,7 +933,7 @@
             "code": "0x3B",
             "x": 50,
             "y": 21,
-            "w": 6,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -932,9 +944,9 @@
         },
         {
             "code": "0x3C",
-            "x": 56,
+            "x": 55,
             "y": 21,
-            "w": 4,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -947,7 +959,7 @@
             "code": "0x3D",
             "x": 60,
             "y": 21,
-            "w": 4,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {
@@ -958,9 +970,9 @@
         },
         {
             "code": "0x3E",
-            "x": 64,
+            "x": 65,
             "y": 21,
-            "w": 6,
+            "w": 5,
             "h": 4,
             "layers": {
                 "0": {

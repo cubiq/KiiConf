@@ -590,8 +590,8 @@
                     "label": "J"
                 },
                 "1": {
-                    "key": "P/",
-                    "label": "P/"
+                    "key": "P\/",
+                    "label": "P\/"
                 }
             }
         },
@@ -831,7 +831,7 @@
             "layers": {
                 "0": {
                     "key": "SLASH",
-                    "label": "/"
+                    "label": "\/"
                 },
                 "1": {
                     "key": "DOWN",
@@ -951,8 +951,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "FUN1",
-                    "label": "\u01921"
+                    "key": "FUN2",
+                    "label": "\u01922"
                 }
             }
         },
