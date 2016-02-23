@@ -6,7 +6,7 @@
 	<title>KII Keyboard Configurator</title>
 
 	<link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo filemtime('css/style.css') ?>">
-	<script src="lib/jquery-2.1.3.min.js"></script>
+	<script src="lib/jquery-2.2.1.min.js"></script>
 	<script src="js/configurator.js"></script>
 	<script src="js/key.js"></script>
 	<script src="js/defaults.js"></script>
