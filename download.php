@@ -80,7 +80,8 @@ if ( file_exists($zipfile) ) {
 }
 
 // Now that the layout files are ready, create directory for compilation object files
-$objpath = $zip_path . '/' . $md5sum;
+$uid = uniqid(true);	// prevent compilation overlap on very close requests
+$objpath = $zip_path . '/' . $md5sum . $uid;
 mkdir( $objpath, 0700 );
 
 
@@ -115,7 +116,7 @@ if ( $retval != 0 ) {
 
 
 // Always create the zip file (the date is always updated, which changes the binary)
-$zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . $error_str . '.zip';
+$zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . $uid . $error_str . '.zip';
 $zip = new ZipArchive;
 $zip->open( $zipfile, ZipArchive::CREATE );
 $kll_files  = glob( $objpath . "/*.kll", GLOB_NOCHECK );
@@ -141,6 +142,27 @@ foreach ( array_merge( $hdr_files, $log_files ) as $file ) {
 
 $zip->close();
 
+$newzip = $zip_path . '/' . $layout_name . '-' . $md5sum . $error_str . '.zip';
+
+// check if someone else compiled the same firmware at the same time
+if ( file_exists( $newzip ) ) {
+	unlink( $zipfile );				// we lost the race, firmware already compiled, remove the unneeded zip
+} else {
+	rename( $zipfile, $newzip );	// remove the session ID from the file name
+}
+
+// delete the working directory
+delTree($objpath);
+
 // Output zip file path
-echo json_encode( array( 'success' => true, 'filename' => $zipfile ) );
+echo json_encode( array( 'success' => true, 'filename' => $newzip ) );
 exit;
+
+// delete directory recursively
+function delTree ($dir) {
+	$files = array_diff(scandir($dir), array('.','..'));
+	foreach ($files as $file) {
+		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+	}
+	return rmdir($dir);
+}
