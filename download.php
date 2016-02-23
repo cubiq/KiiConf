@@ -33,7 +33,11 @@ foreach ( $map->matrix as $i => $key ) {
 $header = implode("\n", array_map(function ($v, $k) { return $k . ' = "' . $v . '";'; }, (array)$map->header, array_keys((array)$map->header)));
 $files = array();
 $file_args = array();
-$hashbaby = $name . $layout; // Set name of base and layout here as an md5 seed
+$controller_ver = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || '::1' ? '' : json_decode(file_get_contents('http://configurator.input.club/stats.json'));
+if ( $controller_ver !== '' ) {
+	$controller_ver = $controller_ver->controller->gitrev . $controller_ver->kll->gitrev;
+}
+$hashbaby = $name . $layout . $controller_ver; // Set name of base, layout and controller version here as an md5 seed
 $layout_name = $name . '-' . $layout;
 
 
@@ -65,9 +69,18 @@ foreach ( $layers as $n => $layer ) {
 	}
 }
 
-// Now that the layout files are ready, create directory for compilation object files
 $md5sum = md5( $hashbaby );
-$objpath = './tmp/' . $md5sum;
+$zip_path = './tmp';
+$zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . '.zip';
+
+// check if we already created the same zip file
+if ( file_exists($zipfile) ) {
+	echo json_encode( array( 'success' => true, 'filename' => $zipfile ) );
+	exit;
+}
+
+// Now that the layout files are ready, create directory for compilation object files
+$objpath = $zip_path . '/' . $md5sum;
 mkdir( $objpath, 0700 );
 
 
@@ -102,7 +115,6 @@ if ( $retval != 0 ) {
 
 
 // Always create the zip file (the date is always updated, which changes the binary)
-$zip_path = './tmp';
 $zipfile = $zip_path . '/' . $layout_name . '-' . $md5sum . $error_str . '.zip';
 $zip = new ZipArchive;
 $zip->open( $zipfile, ZipArchive::CREATE );
@@ -130,5 +142,5 @@ foreach ( array_merge( $hdr_files, $log_files ) as $file ) {
 $zip->close();
 
 // Output zip file path
-echo json_encode( array( 'success' => true, 'filename' => $zip_path . '/' . basename( $zipfile ) ) );
+echo json_encode( array( 'success' => true, 'filename' => $zipfile ) );
 exit;
