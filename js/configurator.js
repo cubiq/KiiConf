@@ -1,6 +1,6 @@
 /*
 	KII Keyboard Editor
-	Copyright (C) 2015 Matteo Spinelli
+	Copyright (C) 2016 Matteo Spinelli
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ function APP (debug) {
 	return _instance;
 }
 
-APP.VERSION = '0.1';
+APP.VERSION = '0.1.1';
 APP.GENERATOR = 'KIICONF';
 
 APP.GRID_SIZE = 13;
@@ -60,19 +60,25 @@ APP.Class = function (debug) {
 		if ( 'group' in v ) {
 
 			if ( group != v.group ) {
-				$shortcutsGroup = $('#group-' + v.group).length ? $('#group-' + v.group) : $('<div id="group-' + v.group + '" class="group"></div>').appendTo($shortcuts);
+				$shortcutsGroup = $('#group-' + v.group).length ? $('#group-' + v.group) : $('<ul id="group-' + v.group + '" class="group"><li class="title">' + v.group + '</li></ul>').appendTo($shortcuts);
 				group = v.group;
 			}
 
-			$shortcutsGroup.append('<span class="shortcut-button" data-key="' + k + '">' + ( v.label || k ) + '</span>');
+			$shortcutsGroup.append('<li><span class="shortcut-button" data-key="' + k + '">' + ( v.label || k ) + '</span></li>');
 		}
 	});
 
 	$shortcuts.on('click', $.proxy(this.shortcut, this) );
 
-	// load button
-	$('#load-layout')
-		.on('click', $.proxy(this.loadLayout, this, ''));
+	// import button
+	$('#import-map').click(function () {
+		new popup(
+			'Import a previously created layout</br>Must be valid json',
+			'import map',
+			'',
+			$.proxy(that.buildLayout, that)
+		);
+	});
 
 	// download button
 	$('#download-map')
@@ -80,11 +86,11 @@ APP.Class = function (debug) {
 
 	// tab switch
 	$('#layers li').on('click', function (e) {
-		e.stopPropagation();
+		//e.stopPropagation();
 		that.layerSelect.call(that, this);
 	});
 
-	// display layers
+	// show/hide layers
 	$('#layers input').on('click', function (e) {
 		e.stopPropagation();
 		that.displayLayers.call(that, this);
@@ -97,26 +103,38 @@ APP.Class = function (debug) {
 
 	this.displayLayers();
 
-	if ( debug ) {
-		this.loadLayout( $("#layout-list option:eq(1)").val() );
-	}
+	// drop down layout select
+	var $layoutList = $('#layout-list');
+	$layoutList.on('click', function (e) {
+		e.stopPropagation();
+
+		var $el = $(this);
+		$el.toggleClass('show');
+
+		if ( $el.hasClass('show') ) {
+			that.$document.one('click', function () {
+				$el.removeClass('show');
+			});
+		}
+	});
+
+	this.loadLayout( $layoutList.find('.selected').data('layout') );
 };
 
 APP.Class.prototype = {
 	loadLayout: function (file) {
-		this.clearLayout();
-
-		file = file || $('#layout-list').val();
+		file = file || $('#layout-list .selected').data('layout');
 
 		if ( ! file ) {
-			alert('Select a layout first!');
+			alert('Error loading layout. Please refresh the page.');
 			return;
 		}
 
-		$.get('layouts/' + file + '.json', $.proxy(this.buildLayout, this) );
+		$.getJSON('layouts/' + file + '.json', $.proxy(this.buildLayout, this) );
 	},
 
 	buildLayout: function (layout) {
+		this.clearLayout();
 		this.header = layout.header;
 
 		var matrix = layout.matrix;
@@ -218,6 +236,11 @@ APP.Class.prototype = {
 			return;
 		}
 
+		// delete key
+		if ( data == '*CLEAR' ) {
+			data = false;
+		}
+
 		this._selectedKey.setKey(data, this._selectedLayer);
 	},
 
@@ -281,6 +304,57 @@ APP.Class.prototype = {
 				alert('Connection error!');
 			}
 		});
+	}
+};
+
+function popup (title, action, value, cb) {
+	var that = this;
+
+	this.$cover = $('<div>')
+		.addClass('cover')
+		.appendTo('body');
+
+	this.$popup = $('<div>')
+		.addClass('popup')
+		.appendTo('body');
+
+	$('<h1>')
+		.html(title)
+		.appendTo(this.$popup);
+
+	var $map = $('<textarea>')
+		.html(value)
+		.appendTo(this.$popup);
+
+	var $buttons = $('<div>').appendTo(this.$popup);
+
+	$('<button>')
+		.attr('type', 'button')
+		.html('cancel')
+		.addClass('button-cancel')
+		.click( $.proxy(this.destroy, this) )
+		.appendTo($buttons);
+
+	$('<button>')
+		.attr('type', 'button')
+		.html(action)
+		.addClass('button-read')
+		.click(function () {
+			if ( !$map.val() ) {
+				alert('c\'mon be creative!');
+				return;
+			}
+
+			cb(jQuery.parseJSON($map.val()));
+			that.destroy();
+		})
+		.appendTo($buttons);
+}
+
+popup.prototype = {
+	destroy: function () {
+		this.$cover.remove();
+		this.$popup.remove();
 	}
 };
 

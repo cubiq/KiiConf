@@ -1,2 +1,5 @@
 layouts/*.json
 tmp/*.zip
+tmp/*/
+stats.json
+controller/*

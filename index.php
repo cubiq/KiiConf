@@ -5,19 +5,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>KII Keyboard Configurator</title>
 
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script src="lib/jquery-2.1.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo filemtime('css/style.css') ?>">
+	<script src="lib/jquery-2.2.1.min.js"></script>
 	<script src="js/configurator.js"></script>
 	<script src="js/key.js"></script>
 	<script src="js/defaults.js"></script>
 </head>
-<body onload="APP(true)" class="configurator">
+<body onload="APP(false)" class="configurator">
 
 <div id="wrapper" class="wrapper">
 	<nav class="cf">
-		<select id="layout-list"><option value="">-</option><?php layoutList() ?></select>
-		<button type="button" id="load-layout" class="button-read">load layout</button>
-		<button type="button" id="download-map" class="button-write floatright">download map</button>
+		<div id="layout-list" class="pseudo-select"><?php layoutList() ?></div>
+		<button type="button" id="import-map" class="button-read">import map</button>
+		<input type="button" onclick="window.top.location.href='https://github.com/kiibohd/KiiConf';" value="Wiki" />
+		<input type="button" onclick="location.href='stats.json';" value="Version" />
+		<button type="button" id="download-map" class="button-write floatright">download firmware</button>
 	</nav>
 
 	<ul id="layers" class="tabs">
@@ -36,7 +38,12 @@
 	</div>
 </div>
 
-<div id="shortcuts" class="shortcuts" style="display:none"></div>
+<div id="shortcuts" class="shortcuts cf" style="display:none">
+	<ul id="group-special" class="group">
+		<li class="title">special</li>
+		<li><span id="clear-key" class="shortcut-button" data-key="*CLEAR">CLR-KEY</span></li>
+	</ul>
+</div>
 
 </body>
 </html><?php
@@ -44,11 +51,33 @@
 function layoutList () {
 	$directory = './layouts/*.json';
 
+	$specified_layout = !empty($_GET['layout']) ? $_GET['layout'] : 'KType-Blank'; // default to KType-Blank
+
 	$files = glob($directory);
+	$old_keyboard = '';
+	$out = '<span id="active-layout-title">' . str_replace('-', ' ', $specified_layout) . '</span><ul>' . "\n";
 
 	foreach ($files as $layout) {
 		$layout = basename($layout, '.json');
 
-		echo '<option value="' . $layout . '">' . str_replace('-', ' ', $layout) . '</option>';
+		list($keyboard, $variant) = explode('-', $layout, 2);
+
+		if ( $keyboard !== $old_keyboard ) {
+			if ( $old_keyboard !== '' ) {
+				$out .= '</ul></li>' . "\n";
+			}
+
+			$out .= '<li>' . "\n";
+			$out .= '<a href="#" onclick="return false">' . htmlspecialchars($keyboard) . '</a>' . "\n";
+			$out .= '<ul>' . "\n";
+
+			$old_keyboard = $keyboard;
+		}
+
+		$selected = strcasecmp( $specified_layout, $layout ) == 0 ? ' class="selected" ' : '';
+		$out .= '<li' . $selected . ' data-layout="' . htmlspecialchars($layout) . '"><a href="?layout=' . urlencode($layout) . '">' . htmlspecialchars($variant) . '</a></li>' . "\n";
 	}
+
+	$out .= '</ul></li></ul>';
+	echo $out;
 }

@@ -54,6 +54,7 @@ button {
 	color: #fff;
 }
 
+.pseudo-select,
 select {
 	float: left;
 	padding: 3px 4px 4px 4px;
@@ -63,6 +64,89 @@ select {
 	margin: 1px 10px 1px 0;
 	color: #000;
 	background-color: #fff;
+}
+
+.pseudo-select {
+	position: relative;
+	z-index: 9999;
+	padding: 5px;
+	min-width: 140px;
+
+	span {
+		display: block;
+		cursor: pointer;
+
+		&::after {
+			content: '▼';
+			margin-left: 10px;
+			padding-right: 5px;
+			float: right;
+		}
+	}
+
+	&.show > ul {
+		left: 0;
+	}
+
+
+	ul {
+		position: absolute;
+		top: 100%;
+		left: -99999%;
+		width: 100%;
+		background: #fff;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+		border: 1px solid #ccc;
+
+		a {
+			display: block;
+			padding: 1em;
+			text-decoration: none;
+			color: #222;
+
+			&::after {
+				float: right;
+				content: '▶';
+			}
+		}
+
+		.selected {
+			background: #eee;
+			font-weight: bold;
+			border-left: 2px solid #c00;
+
+			a {
+				&::after {
+					float: right;
+					content: '✓';
+				}
+			}
+		}
+
+		li {
+			position: relative;
+			border-bottom: 1px solid #ccc;
+
+			&:hover {
+				background: #4eaff5;
+
+				ul {
+					top: -1px;
+				}
+			}
+		}
+
+		ul {
+			a::after {
+				content: '';
+			}
+
+			position: absolute;
+			top: -99999%;
+			left: 100%;
+			width: 100%;
+		}
+	}
 }
 
 button[disabled] {
@@ -79,23 +163,24 @@ big {
 }
 
 .shortcuts {
-	background-color: #eee;
-	padding: 10px;
 	text-align: center;
-	margin: 0 40px;
-	font-size: 1.1em;
+	margin: 0 40px 40px 40px;
+	font-size: 1em;
 	text-shadow: 0 1px #fff;
 	color: #444;
+	font-size: 1.1em;
 
 	span {
-		display: inline-block;
-		background-color: #d9d9d9;
-		height: 30px;
-		line-height: 30px;
-		margin: 1px 1px 0 0;
-		padding: 0 10px;
+		display: block;
+		margin: 0;
+		height: 26px;
+		line-height: 28px;
+		overflow: hidden;
+		margin: 0 7px 7px 0;
 		cursor: pointer;
-		border-bottom: 1px solid #c3c3c3;
+		border: 1px solid #bbb;
+		border-radius: 3px;
+		box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 
 		&:hover {
 			background-color: #ffc;
@@ -107,11 +192,26 @@ big {
 	}
 
 	.group {
-		margin-bottom: 20px;
+		float: left;
+		width: 100%;
+		margin-bottom: 10px;
 
 		&:last-child {
 			margin: 0;
 		}
+	}
+
+	li {
+		display: block;
+		float: left;
+		width: 60px;
+	}
+
+	.title {
+		width: 100%;
+		text-align: left;
+		margin-bottom: 5px;
+		color: #d00;
 	}
 }
 
@@ -184,6 +284,13 @@ nav {
 	margin: -9999px auto 30px auto;
 	overflow: hidden;
 	border-radius: 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 
 	&.layer-0 .layer-0,
 	&.layer-1 .layer-1,
@@ -316,19 +423,19 @@ nav {
 		right: 2px;
 		top: 2px;
 
-		background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 75%);
-		background: -webkit-gradient(radial, center center, 0px, center center, 75%, color-stop(0%,rgba(255,255,255,0.4)), color-stop(100%,rgba(255,255,255,0)));
-		background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 75%);
-		background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 75%);
-		background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 75%);
-		background: radial-gradient(ellipse at center,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 75%);
-		background-color: #e3e3e3;
+		background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 75%);
+		background: -webkit-gradient(radial, center center, 0px, center center, 75%, color-stop(0%,rgba(255,255,255,0.5)), color-stop(100%,rgba(255,255,255,0)));
+		background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 75%);
+		background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 75%);
+		background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 75%);
+		background: radial-gradient(ellipse at center,  rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 75%);
+		background-color: #e7e7e7;
 
 		border-radius: 2px;
 		box-shadow:
-			inset 0 -2px 0 #bbb,
-			inset 0 -4px 0 #bfbfbf,
-			inset 0 1px 0 #f6f6f6,
+			inset 0 -2px 0 #ccc,
+			inset 0 -4px 0 #cfcfcf,
+			inset 0 1px 0 #f9f9f9,
 			0 0 0 1px rgba(0,0,0,0.4);
 	}
 
@@ -413,4 +520,3 @@ nav {
 }
 
 // configurator
-
